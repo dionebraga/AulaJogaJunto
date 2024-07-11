@@ -5,7 +5,7 @@ import csv
 # URL da API para criar usuário
 create_user_url = 'https://desafiopython.jogajuntoinstituto.org/api/users/'
 
-# Dados para criação de usuário (substitua com dados reais)
+# Dados para criação de usuário 
 user_data = {
      'username': 'dionesilhabelatechijj',
         'email': 'dionesilhabelatechijj@gmail.com',
@@ -20,8 +20,8 @@ def create_user():
     try:
         # Fazendo a solicitação POST para criar o usuário
         response = requests.post(create_user_url, json=user_data)
-        response.raise_for_status()
-        
+        response.raise_for_status() 
+                
         if response.status_code == 201:
             print(f'Usuário {user_data["username"]} criado com sucesso!')
         else:
@@ -53,21 +53,29 @@ def login(email, password):
             sorted_login_response = dict(sorted(login_response.items()))
     
             # Salvando a resposta JSON em um arquivo
+            # ident=4 especifica que o JSON deve ser formatado com recuo de 4 espaços para facilitar a leitura.
+            # login_response.json', 'w', Abre o arquivo login_response.json em modo de escrita ('w'). With garante que o arquivo seja fechado corretamente após seu uso mesmo com execções
+            # A variável sorted_login_response armazena os dados JSON de uma resposta HTTP organizados por chave, facilitando o processamento e apresentação ordenada desses dados.
+            
             with open('login_response.json', 'w') as json_file:
                 json.dump(sorted_login_response, json_file, indent=4)
             print('Resposta JSON salva em login_response.json')
             
             # Salvando a resposta JSON em um arquivo CSV
+            # csv_writer é um objeto que simplifica a escrita de dados em arquivos CSV, permitindo uma organização estruturada por linhas e colunas, adequando os dados conforme necessário.
             with open('login_response.csv', 'w', newline='') as csv_file:
                 csv_writer = csv.writer(csv_file)
                 
                 # Escrevendo o cabeçalho
+                # Obter as chaves do dicionário sorted_login_response e escrevê-las como o cabeçalho de um arquivo CSV utilizando o objeto csv_writer.
                 header = sorted_login_response.keys()
                 csv_writer.writerow(header)
                 
                 # Escrevendo os dados
+                # Escreve valores contidos no dicionário sorted_login_response como uma linha no arquivo CSV utilizando o csv_writer, para cpmpletar o processo de salvar os dados e estruturar o cod.
                 csv_writer.writerow(sorted_login_response.values())
                 
+            # indica que a resposta foi salva com sucesso
             print('Resposta JSON salva em login_response.csv')
 
             # Exibindo os dados ordenados
@@ -80,7 +88,7 @@ def login(email, password):
         print('Erro ao fazer login:', e)
         return None
 
-# Função para obter a listagem de usuários
+# Função para obter a listagem de usuários criadas no sistema, indicando a url específica
 def get_users_list():
     list_users_url = 'https://desafiopython.jogajuntoinstituto.org/api/users/'
 
@@ -94,6 +102,7 @@ def get_users_list():
             users_list = response.json()
             
             # Ordenando a listagem de usuários por nome de usuário
+            # lambda x: x['username'] cria uma função anônima que serve como critério de ordenação, especificamente para ordenar uma lista de usuários pelo campo 'username'.
             sorted_users_list = sorted(users_list, key=lambda x: x['username'])
             
             # Salvando a listagem de usuários em um arquivo JSON
@@ -118,7 +127,11 @@ def get_users_list():
 
             # Exibindo a listagem de usuários ordenada
             for user in sorted_users_list:
-                print(f"Username: {user['username']}, Email: {user['email']}, Phone: {user['phone']}, Address: {user['address']}, CPF: {user['cpf']}")
+                print(f"Username: {user['username']}, 
+                        Email: {user['email']}, 
+                        Phone: {user['phone']}, 
+                        Address: {user['address']}, 
+                        CPF: {user['cpf']}")
         else:
             print(f'Falha ao obter a listagem de usuários. Status code: {response.status_code}')
             print('Mensagem de erro:', response.json())
