@@ -5,12 +5,12 @@ from faker import Faker
 fake = Faker('pt_BR')
 
 # URL da API de login
-login_url = 'https://desafiopython.jogajuntoinstituto.org/api/users/login/'
+login_url = 'https://projetofinal.jogajuntoinstituto.org'
 
 # Dados para login
 login_data = {
-    'email': 'dionesilhabelatechijj@gmail.com',
-    'password': 'Ilhabela_tech'
+    'email': 'dionebraga.work@gmail.com',
+    'password': '123456'
 }
 
 # Fazendo a solicitação POST para login
